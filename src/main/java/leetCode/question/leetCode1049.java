@@ -1,5 +1,7 @@
 package leetCode.question;
 
+import java.util.Arrays;
+
 public class leetCode1049 {
     public int lastStoneWeightII(int[] stones) {
             int sum = 0;
@@ -25,5 +27,24 @@ public class leetCode1049 {
                 }
             }
             return dp[stones.length-1][target];
+    }
+
+
+    public int lastStoneWeightII2(int[] stones) {
+        int sum = Arrays.stream(stones).sum();
+
+        int target = sum / 2;
+        int[]dp = new int[target+1];
+
+        for (int i = stones[0]; i <= target; i++) {
+            dp[i] = stones[0];
+        }
+
+        for(int i = 1; i < stones.length; i++){
+            for (int j = target; j >= stones[i]; j--) {
+                dp[j] = Math.max(dp[j], dp[j-stones[i]]+stones[i]);
+            }
+        }
+        return sum - 2*dp[target];
     }
 }

@@ -1,5 +1,7 @@
 package leetCode.question;
 
+import java.util.Arrays;
+
 public class leetCode494 {
 
     public int findTargetSumWays(int[] nums, int target) {
@@ -41,5 +43,37 @@ public class leetCode494 {
         }
 
         return dp[nums.length-1][left];
+    }
+
+
+    public int findTargetSumWays2(int[] nums, int target) {
+        int sum = Arrays.stream(nums).sum();
+
+        if (Math.abs(target) > sum){
+            return 0;
+        }
+
+        if ((target + sum) % 2 == 1){
+            return 0;
+        }
+
+        int res = (target + sum)/2;
+
+        int[]dp = new int[res+1];
+        if (nums[0] <= res){
+            dp[nums[0]] = 1;
+        }
+
+        dp[0] = 1;
+
+        for (int i = 1; i <nums.length; i++) {
+            for (int j = res; j>= nums[i]; j--) {
+                if (j >= nums[i]){
+                    dp[j] = dp[j] + dp[j-nums[i]];
+                }
+            }
+        }
+
+        return dp[res];
     }
 }
