@@ -31,4 +31,33 @@ public class leetCode20 {
         String str = "(";
         System.out.println(isValid(str));
     }
+
+
+    public boolean isValid2(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] sCharArray = s.toCharArray();
+        if (sCharArray.length % 2 == 1){
+            return false;
+        }
+
+        for (char c : sCharArray) {
+            if (c == '(' || c == '{' || c == '[' ){
+                stack.push(c);
+            }else {
+                if (stack.isEmpty()){
+                    return false;
+                }else {
+                    char top = stack.pop();
+                    if (c == ')' && top != '('){
+                        return false;
+                    }else if (c == '}' && top != '{'){
+                        return false;
+                    }else if (c == ']' && top != '['){
+                        return false;
+                    }
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
 }
